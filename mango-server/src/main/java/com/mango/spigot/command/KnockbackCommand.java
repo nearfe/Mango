@@ -35,6 +35,11 @@ public class KnockbackCommand extends Command {
         }, "\n")));
     }
 
+
+    private boolean isBoolean(String s) {
+        return s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false");
+    }
+
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
         if (!sender.isOp()) {
@@ -131,10 +136,9 @@ public class KnockbackCommand extends Command {
                 }
             }
             case "edit":
-                if (args.length == 4 && NumberUtils.isNumber(args[3])) {
+                if (args.length == 4) {
                     String module = args[1].toLowerCase();
                     String profileName = args[2];
-                    double value = Double.parseDouble(args[3]);
 
                     KnockbackProfile profile = Mango.INSTANCE.getConfig().getKbProfileByName(profileName);
 
@@ -143,37 +147,60 @@ public class KnockbackCommand extends Command {
                         return true;
                     }
 
-                    switch (module) {
-                        case "friction":
-                            profile.setFriction(value);
-                            break;
-                        case "horizontal":
-                            profile.setHorizontal(value);
-                            break;
-                        case "vertical":
-                            profile.setVertical(value);
-                            break;
-                        case "extrahorizontal":
-                            profile.setExtraHorizontal(value);
-                            break;
-                        case "extravertical":
-                            profile.setExtraVertical(value);
-                            break;
-                        case "limit":
-                            profile.setVerticalLimit(value);
-                            break;
-                        default:
-                            sender.sendMessage(ChatColor.RED + "Unknown module.");
-                            return true;
+                    if (module.equals("combomode") && isBoolean(args[3])) {
+                        boolean comboMode = Boolean.parseBoolean(args[3]);
+                        profile.setComboMode(comboMode);
+                        profile.save();
+                        sender.sendMessage(ChatColor.YELLOW + "You have updated " + ChatColor.WHITE + profile.getName() + ChatColor.YELLOW + "'s comboMode to " + ChatColor.WHITE + comboMode + ChatColor.YELLOW + ".");
                     }
 
-                    profile.save();
+                    else if (NumberUtils.isNumber(args[3])) {
+                        double value = Double.parseDouble(args[3]);
 
-                    sender.sendMessage(ChatColor.YELLOW + "You have updated " + ChatColor.WHITE + profile.getName() + ChatColor.YELLOW + "'s " + module + " to " + ChatColor.WHITE + value + ChatColor.YELLOW + ".");
+                        switch (module) {
+                            case "friction":
+                                profile.setFriction(value);
+                                break;
+                            case "horizontal":
+                                profile.setHorizontal(value);
+                                break;
+                            case "vertical":
+                                profile.setVertical(value);
+                                break;
+                            case "extrahorizontal":
+                                profile.setExtraHorizontal(value);
+                                break;
+                            case "extravertical":
+                                profile.setExtraVertical(value);
+                                break;
+                            case "limit":
+                                profile.setVerticalLimit(value);
+                                break;
+                            case "comboheight":
+                                profile.setComboHeight(value);
+                                break;
+                            case "comboticks":
+                                profile.setComboTicks(Integer.parseInt(args[3]));
+                                break;
+                            case "combovelocity":
+                                profile.setComboVelocity(value);
+                                break;
+                            default:
+                                sender.sendMessage(ChatColor.RED + "Unknown module.");
+                                return true;
+                        }
+
+                        profile.save();
+
+                        sender.sendMessage(ChatColor.YELLOW + "You have updated " + ChatColor.WHITE + profile.getName() + ChatColor.YELLOW + "'s " + module + " to " + ChatColor.WHITE + value + ChatColor.YELLOW + ".");
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Invalid value. Please provide a boolean for comboMode or a number for other modules.");
+                    }
                 } else {
                     sender.sendMessage(ChatColor.RED + "Usage: /kb edit <module> <profile> <value>");
                 }
                 break;
+
             default: {
                 sender.sendMessage(usageMessage);
             }

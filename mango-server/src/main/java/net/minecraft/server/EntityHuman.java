@@ -1023,10 +1023,10 @@ public abstract class EntityHuman extends EntityLiving {
                 // Kohi end
 
                 boolean damaged = entity.damageEntity(DamageSource.playerAttack(this), f);
+                KnockbackProfile profile = this.getKnockbackProfile() == null ? Mango.INSTANCE.getConfig().getCurrentKb() : this.getKnockbackProfile();
 
                 if (damaged) {
                     if (i > 0) {
-                        KnockbackProfile profile = this.getKnockbackProfile() == null ? Mango.INSTANCE.getConfig().getCurrentKb() : this.getKnockbackProfile();
 
                         entity.g(
                                 (-MathHelper.sin(this.yaw * 3.1415927F / 180.0F) * (float) i * profile.getExtraHorizontal()), profile.getExtraVertical(),
@@ -1036,6 +1036,18 @@ public abstract class EntityHuman extends EntityLiving {
                         this.motX *= 0.6D;
                         this.motZ *= 0.6D;
                         this.setSprinting(false);
+                    }
+
+
+                    double fodase = entity.locY - this.locY;
+
+                    if (profile.isComboMode()) {
+                        if (fodase > profile.getComboHeight()) {
+                            ticksDown = MinecraftServer.currentTick;
+                        }
+                        if (fodase > profile.getComboHeight() || MinecraftServer.currentTick - ticksDown < profile.getComboTicks()) {
+                            entity.motY = profile.getComboVelocity();
+                        }
                     }
 
                     // Kohi start

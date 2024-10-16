@@ -30,6 +30,22 @@ public interface KnockbackProfile {
 
     void setExtraVertical(double extraVertical);
 
+    boolean isComboMode();
+
+    void setComboMode(boolean comboMode);
+
+    double getComboHeight();
+
+    void setComboHeight(double comboHeight);
+
+    int getComboTicks();
+
+    void setComboTicks(int comboTicks);
+
+    double getComboVelocity();
+
+    void setComboVelocity(double comboVelocity);
+
     void save();
 
 }

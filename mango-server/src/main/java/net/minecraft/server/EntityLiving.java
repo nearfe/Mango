@@ -910,7 +910,7 @@ public abstract class EntityLiving extends Entity {
 
     public void a(Entity entity, float f, double d0, double d1, DamageSource source) {
         if (this.random.nextDouble() >= this.getAttributeInstance(GenericAttributes.c).getValue()) {
-            double magnitude = (double)MathHelper.sqrt(d0 * d0 + d1 * d1);
+            double magnitude = MathHelper.sqrt(d0 * d0 + d1 * d1);
             KnockbackProfile profile = this.getKnockbackProfile() == null ? Mango.INSTANCE.getConfig().getCurrentKb() : this.getKnockbackProfile();
             this.motX = this.motX / profile.getFriction();
             this.motY = this.motY / profile.getFriction();
