@@ -6,10 +6,6 @@ public interface KnockbackProfile {
 
     String[] getValues();
 
-    double getFriction();
-
-    void setFriction(double friction);
-
     double getHorizontal();
 
     void setHorizontal(double horizontal);
@@ -29,6 +25,26 @@ public interface KnockbackProfile {
     double getExtraVertical();
 
     void setExtraVertical(double extraVertical);
+
+    double getHorizontalFriction();
+
+    void setHorizontalFriction(double horizontalFriction);
+
+    double getVerticalFriction();
+
+    void setVerticalFriction(double verticalFriction);
+
+    double getRangeReduction();
+
+    void setRangeReduction(double rangeReduction);
+
+    double getRangeReductionStart();
+
+    void setRangeReductionStart(double rangeReductionStart);
+
+    double getRangeReductionLimit();
+
+    void setRangeReductionLimit(double rangeRedutionLimit);
 
     boolean isComboMode();
 

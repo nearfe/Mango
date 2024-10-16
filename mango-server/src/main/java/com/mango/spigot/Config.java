@@ -101,14 +101,16 @@ public class Config {
                 this.kbProfiles.add(profile);
             }
 
-            profile.setFriction(this.getDouble(path + ".friction", 2.0D));
             profile.setHorizontal(this.getDouble(path + ".horizontal", 0.35D));
             profile.setVertical(this.getDouble(path + ".vertical", 0.35D));
             profile.setVerticalLimit(this.getDouble(path + ".vertical-limit", 0.4D));
             profile.setExtraHorizontal(this.getDouble(path + ".extra-horizontal", 0.425D));
-            profile.setExtraHorizontal(this.getDouble(path + ".extra-vertical", 0.085D));
-
-
+            profile.setExtraVertical(this.getDouble(path + ".extra-vertical", 0.085D));
+            profile.setHorizontalFriction(this.getDouble(path + ".horizontal-friction", 2.0D));
+            profile.setVerticalFriction(this.getDouble(path + ".vertical-friction", 2.0D));
+            profile.setRangeReduction(this.getDouble(path + ".range-reduction", 0.025D));
+            profile.setRangeReductionStart(this.getDouble(path + ".min-range-reduction-dist", 1.2D));
+            profile.setRangeReductionLimit(this.getDouble(path + ".range-reduction-limit", 1.0D));
         }
 
         this.currentKb = this.getKbProfileByName(this.getString("knockback.current", "default"));

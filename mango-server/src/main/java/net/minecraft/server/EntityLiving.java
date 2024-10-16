@@ -908,19 +908,30 @@ public abstract class EntityLiving extends Entity {
     protected void dropEquipment(boolean flag, int i) {
     }
 
-    public void a(Entity entity, float f, double d0, double d1, DamageSource source) {
+    public double distance(Entity nmsEntity1, Entity nmsEntity2) {
+        CraftEntity entity = (CraftEntity) nmsEntity1.getBukkitEntity();
+        CraftEntity target = (CraftEntity) nmsEntity2.getBukkitEntity();
+
+        if (entity.getWorld() != target.getWorld()) return -1.0D;
+        if (entity == target) return 0D;
+
+        return entity.getLocation().distance(target.getLocation());
+    }
+
+    public void a(Entity entity, float f, double x, double z, DamageSource source) {
         if (this.random.nextDouble() >= this.getAttributeInstance(GenericAttributes.c).getValue()) {
-            double magnitude = MathHelper.sqrt(d0 * d0 + d1 * d1);
+            double magnitude = MathHelper.sqrt(x * x + z * z);
             KnockbackProfile profile = this.getKnockbackProfile() == null ? Mango.INSTANCE.getConfig().getCurrentKb() : this.getKnockbackProfile();
-            this.motX = this.motX / profile.getFriction();
-            this.motY = this.motY / profile.getFriction();
-            this.motZ = this.motZ / profile.getFriction();
-            this.motX = this.motX - d0 / magnitude * profile.getHorizontal();
-            this.motY = this.motY + profile.getVertical();
-            this.motZ = this.motZ - d1 / magnitude * profile.getHorizontal();
-            if (this.motY > profile.getVerticalLimit()) {
-                this.motY = profile.getVerticalLimit();
-            }
+
+            double distance = this.distance(entity, this);
+            double rangeReduction = Math.min(profile.getRangeReduction() * (distance - profile.getRangeReductionStart()), profile.getRangeReductionLimit());
+
+            this.motX = this.motX / profile.getHorizontalFriction();
+            this.motY = this.motY / profile.getVerticalFriction();
+            this.motZ = this.motZ / profile.getHorizontalFriction();
+            this.motX = this.motX - d0 / magnitude * (profile.getHorizontal() - rangeReduction);
+            this.motY = Math.min(this.motY + profile.getVertical(), profile.getVerticalLimit());
+            this.motZ = this.motZ - d1 / magnitude * (profile.getHorizontal() - rangeReduction);
         }
     }
 

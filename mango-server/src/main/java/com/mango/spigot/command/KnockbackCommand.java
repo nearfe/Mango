@@ -157,15 +157,15 @@ public class KnockbackCommand extends Command {
                     else if (NumberUtils.isNumber(args[3])) {
                         double value = Double.parseDouble(args[3]);
 
-                        switch (module) {
-                            case "friction":
-                                profile.setFriction(value);
-                                break;
+                        switch (module) {                            
                             case "horizontal":
                                 profile.setHorizontal(value);
                                 break;
                             case "vertical":
                                 profile.setVertical(value);
+                                break;
+                            case "verticallimit":
+                                profile.setVerticalLimit(value);
                                 break;
                             case "extrahorizontal":
                                 profile.setExtraHorizontal(value);
@@ -173,7 +173,19 @@ public class KnockbackCommand extends Command {
                             case "extravertical":
                                 profile.setExtraVertical(value);
                                 break;
-                            case "limit":
+                            case "horizontalfriction":
+                                profile.setHorizontalFriction(value);
+                                break;
+                            case "verticalfriction":
+                                profile.setVerticalFriction(value);
+                                break;
+                            case "rangereduction":
+                                profile.setVerticalLimit(value);
+                                break;
+                            case "minrangereductiondist":
+                                profile.setVerticalLimit(value);
+                                break;
+                            case "rangereductionlimit":
                                 profile.setVerticalLimit(value);
                                 break;
                             case "comboheight":
