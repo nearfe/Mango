@@ -9,6 +9,7 @@ This project includes patches and enhancements from several well-known Spigot ve
 - **MineTick**  
 - **SpigotX**  
 - **PandaSpigot**
+- **KewlSpigot**
 
 ### New Features  
 - **Custom Knockback System**: Enables independent configuration of both vertical and horizontal friction values.  
